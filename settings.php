@@ -15,7 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Install plugins from any remote Git repository.
  *
  * @package   local_gitplugins
  * @copyright 2021 Bryce Yoder
@@ -24,8 +23,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2021082700;
-$plugin->requires  = 2021051702;
-$plugin->component = 'local_gitplugins';
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.1';
+$ADMIN->add(
+    'modules',
+    new admin_externalpage(
+        'local_gitplugins',
+        get_string('pluginname', 'local_gitplugins'),
+        new \moodle_url('/local/gitplugins')
+    )
+);

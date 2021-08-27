@@ -33,11 +33,12 @@ require_capability('local/gitplugins:installplugins', $context);
 
 $PAGE->set_context($context);
 $PAGE->set_url('/local/gitplugins/index.php');
+$PAGE->set_heading($SITE->fullname);
+$PAGE->set_pagelayout('admin');
 $PAGE->set_title('Git Plugin Installer');
-$PAGE->set_heading('Install a plugin from a Git repository');
-$PAGE->set_pagelayout('standard');
 
 echo $OUTPUT->header();
+echo html_writer::tag('h2', get_string('pluginname', 'local_gitplugins'));
 
 $form = new installer_form();
 if ($form->is_cancelled()) {
