@@ -22,8 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Git Plugin Installer';
-$string['installplugins'] = 'Install plugins from a git repository';
+$string['pluginname'] = 'Install plugins from a git repository';
 
 $string['repourl'] = 'Repository URL';
 $string['urlrequired'] = 'Plese enter a URL!';

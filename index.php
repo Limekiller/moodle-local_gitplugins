@@ -35,7 +35,7 @@ $PAGE->set_context($context);
 $PAGE->set_url('/local/gitplugins/index.php');
 $PAGE->set_heading($SITE->fullname);
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title('Git Plugin Installer');
+$PAGE->set_title(get_string('pluginname', 'local_gitplugins'));
 
 echo $OUTPUT->header();
 echo html_writer::tag('h2', get_string('pluginname', 'local_gitplugins'));

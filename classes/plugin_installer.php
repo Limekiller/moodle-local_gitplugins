@@ -83,23 +83,24 @@ class plugin_installer {
             'cachelock' => 'cache/locks',
             'theme' => 'theme',
             'local' => 'local',
-            'assignment' => 'mod/assignment/type' 
+            'assignment' => 'mod/assignment/type'
         ];
 
-        $folder = end(explode('/', $url));        
+        $folder = end(explode('/', $url));
         chdir($CFG->tempdir);
         exec("git clone $url $folder");
 
         // read the whole version.php file into a string. We need to parse out the plugin name
         $file_contents = file_get_contents("$CFG->tempdir/$folder/version.php");
-        // get something that looks similar to " = 'plugin_name'"
+        // get everything between 'plugin->component' and ';'
         $pluginname = explode(';', explode('plugin->component', $file_contents)[1])[0];
-        // split on the quotes surrounding the plugin name
+        // get everything between the quotes surrounding the plugin name
         $pluginname = explode(substr($pluginname, -1), $pluginname)[1];
 
         $plugintype = explode('_', $pluginname)[0];
         $plugin_shortname = explode('_', $pluginname)[1];
         $plugin_location = $plugin_dirs[$plugintype];
+        $install_path = "$CFG->dirroot/$plugin_location/$plugin_shortname";
 
         if (!$plugin_location) {
             self::removeDirectory("$CFG->tempdir/$folder");
@@ -109,14 +110,19 @@ class plugin_installer {
             );
         }
 
-        if (!rename("$CFG->tempdir/$folder", "$CFG->dirroot/$plugin_location/$plugin_shortname")) {
+        // If the plugin already exists on disk, let's remove it before moving the new version
+        if (is_dir($install_path)) {
+            self::removeDirectory($install_path);
+        }
+
+        if (!rename("$CFG->tempdir/$folder", $install_path)) {
             self::removeDirectory("$CFG->tempdir/$folder");
             throw new \file_exception(
                 "Installation Problem",
                 "Couldn't move the plugin folder to the installation directory! Does the web server user have permission?"
             );
         }
-        
+
         // Redirect to admin page for installation
         redirect('/admin/index.php');
     }
