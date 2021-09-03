@@ -1,3 +1,3 @@
 # moodle-local_gitplugins
 
-This plugin allows admins to install plugins directly from Git repositories. At the moment, it allows a user to paste in the URL of a Git repository, and will then clone the repo to the tempdir, move it to the correct installation directory in the webroot, and then redirect to /admin/index.php for install.
+This plugin allows admins to install plugins directly from Git repositories. Users can either search GitHub directly from this plugin by entering a search query and receiving a list of repositories, which can then be selected from, or by pasting in the URL of any git repository directly. Once a repository URL is entered, the plugin will clone the repo to the tempdir, discover the installation directory based on the plugin name in version.php, and move the plugin folder to the correct location in the webroot. The user is then redirected to admin/index.php to trigger the plugin update screen.
