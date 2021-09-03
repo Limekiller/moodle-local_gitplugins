@@ -103,7 +103,7 @@ class plugin_installer {
         $install_path = "$CFG->dirroot/$plugin_location/$plugin_shortname";
 
         if (!$plugin_location) {
-            self::removeDirectory("$CFG->tempdir/$folder");
+            self::remove_directory("$CFG->tempdir/$folder");
             throw new \coding_exception(
                 "Unsupported Plugintype",
                 "Couldn't figure out where this plugin goes. Ask the developer to support plugins of type $plugintype!"
@@ -112,11 +112,11 @@ class plugin_installer {
 
         // If the plugin already exists on disk, let's remove it before moving the new version
         if (is_dir($install_path)) {
-            self::removeDirectory($install_path);
+            self::remove_directory($install_path);
         }
 
         if (!rename("$CFG->tempdir/$folder", $install_path)) {
-            self::removeDirectory("$CFG->tempdir/$folder");
+            self::remove_directory("$CFG->tempdir/$folder");
             throw new \file_exception(
                 "Installation Problem",
                 "Couldn't move the plugin folder to the installation directory! Does the web server user have permission?"
@@ -131,14 +131,13 @@ class plugin_installer {
      * Recursively remove directory with PHP
      * @param string $path The path to the folder to recursively delete
      */
-    private static function removeDirectory($path) {
+    private static function remove_directory($path) {
         // Get everything, including stuff that starts with '.' (but not '.' or '..')
         $files = glob($path . '/{,.}*[!.]*', GLOB_MARK | GLOB_BRACE);
         foreach ($files as $file) {
-            is_dir($file) ? self::removeDirectory($file) : unlink($file);
+            is_dir($file) ? self::remove_directory($file) : unlink($file);
         }
         rmdir($path);
         return;
     }
-
 }

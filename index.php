@@ -26,6 +26,7 @@ require_once(dirname(__FILE__) . '/../../config.php');
 
 use local_gitplugins\installer_form;
 use local_gitplugins\plugin_installer;
+use local_gitplugins\github_result_form;
 
 require_login();
 $context = context_system::instance();
@@ -44,8 +45,24 @@ $form = new installer_form();
 if ($form->is_cancelled()) {
     redirect('/admin/plugins.php');
 } else if ($data = $form->get_data()) {
-    plugin_installer::install_from_url($data->URL);
+
+    if ($data->query) {
+        $github_form = new github_result_form(null, array('query' => $data->query));
+        $github_form->display();
+        $PAGE->requires->js_init_call('M.local_gitplugins.helper.init');
+    } elseif ($data->URL) {
+        plugin_installer::install_from_url($data->URL);
+    } else {
+        $form->display();
+    }
+
 } else {
+    $github_form = new github_result_form();
+    $github_data = $github_form->get_data();
+    if ($github_data->URL) {
+        plugin_installer::install_from_url($github_data->URL);
+    }
+
     $form->display();
 }
 

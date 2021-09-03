@@ -24,5 +24,8 @@
 
 $string['pluginname'] = 'Install plugins from a git repository';
 
+$string['searchquery'] = 'Search query';
 $string['repourl'] = 'Repository URL';
 $string['urlrequired'] = 'Plese enter a URL!';
+
+$string['installplugin'] = 'Install plugin';

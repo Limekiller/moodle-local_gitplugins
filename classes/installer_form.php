@@ -36,9 +36,19 @@ class installer_form extends moodleform {
 
         $mform = $this->_form;
 
+        $mform->addElement('html', '<br />');
+        $mform->addElement('html', '<h4>Search GitHub for Moodle plugins</h4>');
+        $mform->addElement('text', 'query', get_string('searchquery', 'local_gitplugins'));
+        $mform->setType('query', PARAM_NOTAGS);
+        $this->add_action_buttons(false, 'Search');
+        // $mform->addRule('URL', get_string('urlrequired', 'local_gitplugins'), 'required');
+
+        $mform->addElement('html', '<hr />');
+
+        $mform->addElement('html', '<h4>Install directly from URL</h4>');
         $mform->addElement('text', 'URL', get_string('repourl', 'local_gitplugins'));
         $mform->setType('URL', PARAM_NOTAGS);
-        $mform->addRule('URL', get_string('urlrequired', 'local_gitplugins'), 'required');
+        // $mform->addRule('URL', get_string('urlrequired', 'local_gitplugins'), 'required');
         $this->add_action_buttons();
     }
 
